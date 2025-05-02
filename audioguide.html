@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioArte | La tua audioguida interattiva</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --accent: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+        
+        nav ul li a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .hero {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--dark);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.3s, background-color 0.3s;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            background-color: var(--accent);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            margin-left: 1rem;
+        }
+        
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .features {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--dark);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: var(--light);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .demo {
+            padding: 5rem 0;
+            background-color: var(--light);
+            text-align: center;
+        }
+        
+        .demo-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .artwork-display {
+            position: relative;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .artwork-display img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .voice-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .mic-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .mic-btn:hover {
+            background-color: var(--secondary);
+            transform: scale(1.1);
+        }
+        
+        .mic-btn.active {
+            background-color: var(--accent);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+            }
+        }
+        
+        .response-area {
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            min-height: 200px;
+            text-align: left;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .response-area.loading:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255,255,255,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        
+        .chip {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+        }
+        
+        .chip:hover {
+            background-color: var(--secondary);
+        }
+        
+        .about-content,
+        .service-content {
+            padding: 3rem 0;
+            background-color: white;
+        }
+        
+        .about-grid,
+        .service-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text,
+        .service-text {
+            text-align: left;
+        }
+        
+        .about-text h2,
+        .service-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .about-text p,
+        .service-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .about-image,
+        .service-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .about-image img,
+        .service-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .mission {
+            padding: 5rem 0;
+            background-color: var(--light);
+            text-align: center;
+        }
+        
+        .mission-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .mission-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .team {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .team-member {
+            background-color: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+        
+        .team-member img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .team-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .team-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .team-info p {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .service-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .service-list li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+        
+        .service-list li:before {
+            content: "✓";
+            color: var(--secondary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .how-it-works {
+            padding: 5rem 0;
+            background-color: white;
+            text-align: center;
+        }
+        
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 250px;
+            margin: 0 1rem 2rem;
+            position: relative;
+        }
+        
+        .step-number {
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .step h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .step:not(:last-child):after {
+            content: "";
+            position: absolute;
+            top: 25px;
+            right: -30px;
+            width: 60px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        
+        .pricing {
+            padding: 5rem 0;
+            background-color: var(--light);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .pricing-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .pricing-card.featured {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+        
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .pricing-card .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+        
+        .pricing-card .price span {
+            font-size: 1rem;
+            font-weight: normal;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .pricing-features li {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .pricing-card.featured .pricing-features li {
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .pricing-card .btn {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .pricing-card.featured .btn {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .faq {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 1.5rem;
+        }
+        
+        .faq-question {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-question:after {
+            content: "+";
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .faq-answer {
+            display: none;
+        }
+        
+        .faq-item.active .faq-question:after {
+            content: "-";
+        }
+        
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-grid,
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                display: block;
+                margin: 1rem 0;
+                text-align: center;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+            }
+            
+            .step:not(:last-child):after {
+                display: none;
+            }
+        }
+
+        /* Page specific styles */
+        #home-page, #about-page, #service-page {
+            display: none;
+        }
+
+        #home-page.active, #about-page.active, #service-page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo" id="logo-link">Audio<span>Arte</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#" class="home-link" id="nav-home">Home</a></li>
+                    <li><a href="#" class="about-link" id="nav-about">Chi Siamo</a></li>
+                    <li><a href="#" class="service-link" id="nav-service">Il Servizio</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HOME PAGE -->
+    <div id="home-page">
+        <section class="hero">
+            <div class="container">
+                <h1>Scopri l'Arte come mai prima d'ora</h1>
+                <p>AudioArte è l'audioguida interattiva che ti permette di conversare con le opere d'arte. Poni domande, scopri dettagli nascosti e vivi un'esperienza culturale rivoluzionaria nella città di Firenze.</p>
+                <div class="hero-buttons">
+                    <a href="#demo" class="btn">Prova la Demo</a>
+                    <a href="#" class="btn btn-outline" id="discover-more">Scopri di più</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Caratteristiche</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎙️</div>
+                        <h3>Interazione Vocale</h3>
+                        <p>Parla direttamente all'app per scoprire tutto ciò che vuoi sapere sulle opere d'arte.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h3>IA Avanzata</h3>
+                        <p>Tecnologia all'avanguardia che comprende le tue domande e fornisce risposte dettagliate.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏛️</div>
+                        <h3>Esperti d'Arte</h3>
+                        <p>Contenuti curati da storici dell'arte e guide professioniste per garantire accuratezza.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="demo" id="demo">
+            <div class="container">
+                <h2 class="section-title">Prova l'Esperienza</h2>
+                <div class="demo-container">
+                    <div class="artwork-display">
+                        <img src="/api/placeholder/800/500" alt="La Nascita di Venere - Botticelli" />
+                    </div>
+                    <div class="voice-controls">
+                        <button class="mic-btn" id="mic-button">
+                            <i>🎙️</i>
+                        </button>
+                        <p id="status-text">Premi il microfono e fai una domanda</p>
+                    </div>
+                    <div class="response-area" id="response-area">
+                        <p>Ciao! Sono la tua guida per "La Nascita di Venere" di Botticelli. Cosa vorresti sapere su questo capolavoro?</p>
+                    </div>
+                    <div class="suggestion-chips">
+                        <button class="chip">Chi ha dipinto quest'opera?</button>
+                        <button class="chip">Quando è stata creata?</button>
+                        <button class="chip">Quali simboli contiene?</button>
+                        <button class="chip">Perché è importante?</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="about-page">
+        <section class="hero">
+            <div class="container">
+                <h1>Chi Siamo</h1>
+                <p>Un team appassionato di tecnologia e arte uniti per creare un'esperienza culturale rivoluzionaria.</p>
+            </div>
+        </section>
+
+        <section class="about-content">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-image">
+                        <img src="/api/placeholder/600/400" alt="Il team di AudioArte al lavoro" />
+                    </div>
+                    <div class="about-text">
+                        <h2>La Nostra Storia</h2>
+                        <p>AudioArte nasce nel 2023 dall'incontro tra un gruppo di ingegneri specializzati in intelligenza artificiale e storici dell'arte appassionati di tecnologia. L'idea è nata durante una visita a una mostra d'arte a Firenze, quando ci siamo resi conto di quanto potesse essere limitante un'audioguida tradizionale.</p>
+                        <p>Dopo due anni di intenso sviluppo, numerosi test e collaborazioni con istituzioni museali, abbiamo creato una soluzione che trasforma completamente l'esperienza di visita culturale, rendendo l'arte più accessibile, interattiva e personalizzata.</p>
+                        <p>Oggi, AudioArte è utilizzata da migliaia di visitatori che esplorano le bellezze artistiche di Firenze e presto sarà disponibile in altre città d'arte italiane ed europee.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mission">
+            <div class="container">
+                <h2 class="section-title">La Nostra Missione</h2>
+                <div class="mission-content">
+                    <p>Crediamo che l'arte debba essere accessibile a tutti. La nostra missione è democratizzare l'accesso alla cultura, abbattendo le barriere linguistiche e di conoscenza che spesso limitano l'apprezzamento delle opere d'arte.</p>
+                    <p>Vogliamo trasformare ogni visita museale o passeggiata per la città in un'esperienza di apprendimento dinamica e personalizzata, dove ogni persona può esplorare l'arte secondo i propri interessi e al proprio ritmo.</p>
+                    <p>Con AudioArte, non sei più un semplice spettatore passivo, ma diventi protagonista attivo del tuo percorso di scoperta artistica.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="team">
+            <div class="container">
+                <h2 class="section-title">Il Nostro Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="/api/placeholder/300/300" alt="Foto di Marco Bianchi" />
+                        <div class="team-info">
+                            <h3>Marco Bianchi</h3>
+                            <p>CEO & Fondatore</p>
+                            <p>Ingegnere informatico con una passione per l'arte rinascimentale, ha guidato lo sviluppo dell'algoritmo di IA di AudioArte.</p>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="/api/placeholder/300/300" alt="Foto di Laura Rossi" />
+                        <div class="team-info">
+                            <h3>Laura Rossi</h3>
+                            <p>Direttrice Artistica</p>
+                            <p>Storica dell'arte con specializzazione in arte italiana del Rinascimento, ha curato tutti i contenuti artistici dell'app.</p>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="/api/placeholder/300/300" alt="Foto di Giovanni Verdi" />
+                        <div class="team-info">
+                            <h3>Giovanni Verdi</h3>
+                            <p>CTO</p>
+                            <p>Esperto di tecnologie vocali e IA, ha sviluppato il sistema di riconoscimento e sintesi vocale dell'app.</p>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="/api/placeholder/300/300" alt="Foto di Sofia Neri" />
+                        <div class="team-info">
+                            <h3>Sofia Neri</h3>
+                            <p>UX Designer</p>
+                            <p>Designer specializzata in esperienze utente accessibili, ha creato l'interfaccia intuitiva e inclusiva dell'app.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- SERVICE PAGE -->
+    <div id="service-page">
+        <section class="hero">
+            <div class="container">
+                <h1>Il Nostro Servizio</h1>
+                <p>Scopri come AudioArte sta rivoluzionando l'esperienza di visita culturale con la sua tecnologia innovativa.</p>
+            </div>
+        </section>
+
+        <section class="service-content">
+            <div class="container">
+                <div class="service-grid">
+                    <div class="service-text">
+                        <h2>Un'Audioguida Rivoluzionaria</h2>
+                        <p>AudioArte non è una semplice audioguida. È un vero e proprio assistente personale che ti accompagna alla scoperta delle opere d'arte di Firenze, rispondendo a qualsiasi domanda tu possa avere.</p>
+                        <p>Grazie alla tecnologia di intelligenza artificiale avanzata, l'app è in grado di comprendere le tue domande in linguaggio naturale e fornirti informazioni dettagliate, aneddoti curiosi e approfondimenti su ogni opera che incontri nel tuo percorso.</p>
+                        <ul class="service-list">
+                            <li>Interazione vocale naturale con le opere d'arte</li>
+                            <li>Contenuti curati da storici dell'arte esperti</li>
+                            <li>Possibilità di approfondire ogni dettaglio che ti incuriosisce</li>
+                            <li>Disponibile in 8 lingue diverse</li>
+                        </ul>
+                    </div>
+                    <div class="service-image">
+                        <img src="/api/placeholder/600/400" alt="Demo dell'app AudioArte" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Caratteristiche Uniche</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Riconoscimento Opere</h3>
+                        <p>L'app identifica automaticamente l'opera che stai osservando attraverso la fotocamera del tuo smartphone.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🗣️</div>
+                        <h3>Conversazione Naturale</h3>
+                        <p>Parla con l'app come faresti con una vera guida turistica, ponendo domande complesse in linguaggio naturale.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h3>Multilingue</h3>
+                        <p>Disponibile in italiano, inglese, francese, spagnolo, tedesco, cinese, giapponese e russo.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏛️</div>
+                        <h3>Percorsi Personalizzati</h3>
+                        <p>Crea itinerari su misura in base ai tuoi interessi, al tempo a disposizione e alla tua posizione.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>Funziona Offline</h3>
+                        <p>Scarica i contenuti prima della visita e utilizza l'app anche senza connessione internet.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Dettagli Nascosti</h3>
+                        <p>Scopri particolari e segreti delle opere che spesso sfuggono anche a guide esperte.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-it-works">
+            <div class="container">
+                <h2 class="section-title">Come Funziona</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Scarica l'App</h3>
+                        <p>Disponibile per iOS e Android, scarica l'app e crea un account in pochi secondi.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Scegli la Tua Visita</h3>
+                        <p>Seleziona un itinerario predefinito o creane uno personalizzato in base ai tuoi interessi.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Inquadra l'Opera</h3>
+                        <p>Punta la fotocamera verso l'opera d'arte per farla riconoscere all'app.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Inizia a Parlare</h3>
+                        <p>Fai domande in linguaggio naturale e ottieni risposte dettagliate in tempo reale.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing">
+            <div class="container">
+                <h2 class="section-title">I Nostri Piani</h2>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Base</h3>
+                        <div class="price">€4.99 <span>/ giorno</span></div>
+                        <ul class="pricing-features">
+                            <li>Accesso alle opere principali</li>
+                            <li>Riconoscimento opere</li>
+                            <li>Interazione vocale base</li>
+                            <li>2 lingue disponibili</li>
+                            <li>Utilizzo per 24 ore</li>
+                        </ul>
+                        <a href="#" class="btn">Scegli Piano</a>
+                    </div>
+                    <div class="pricing-card featured">
+                        <h3>Premium</h3>
+                        <div class="price">€9.99 <span>/ giorno</span></div>
+                        <ul class="pricing-features">
+                            <li>Accesso a tutte le opere</li>
+                            <li>Riconoscimento opere avanzato</li>
+                            <li>Interazione vocale illimitata</li>
+                            <li>Tutte le 8 lingue disponibili</li>
+                            <li>Percorsi personalizzati</li>
+                            <li>Modalità offline completa</li>
+                            <li>Utilizzo per 24 ore</li>
+                        </ul>
+                        <a href="#" class="btn">Scegli Piano</a>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Illimitato</h3>
+                        <div class="price">€19.99 <span>/ settimana</span></div>
+                        <ul class="pricing-features">
+                            <li>Tutti i vantaggi del Premium</li>
+                            <li>Validità 7 giorni</li>
+                            <li>Contenuti esclusivi</li>
+                            <li>Tour virtuali aggiuntivi</li>
+                            <li>Supporto prioritario</li>
+                        </ul>
+                        <a href="#" class="btn">Scegli Piano</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq">
+            <div class="container">
+                <h2 class="section-title">Domande Frequenti</h2>
+                <div class="faq-container">
+                    <div class="faq-item active">
+                        <div class="faq-question">Come fa l'app a riconoscere le opere d'arte?</div>
+                        <div class="faq-answer">
+                            <p>L'app utilizza un sistema avanzato di visione computerizzata e machine learning che confronta l'immagine acquisita dalla fotocamera con un vasto database di opere d'arte. Il sistema è in grado di riconoscere non solo l'opera intera, ma anche dettagli e particolari, permettendo all'utente di fare domande specifiche anche su piccole porzioni dell'opera.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">Posso usare l'app senza connessione internet?</div>
+                        <div class="faq-answer">
+                            <p>Sì, AudioArte funziona anche offline. Prima della visita, puoi scaricare i contenuti relativi alle opere o ai musei che intendi visitare. In modalità offline alcune funzionalità avanzate potrebbero essere limitate, ma l'interazione vocale di base e il riconoscimento delle opere principali rimangono disponibili.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">In quali città è disponibile AudioArte?</div>
+                        <div class="faq-answer">
+                            <p>Attualmente AudioArte è disponibile a Firenze, con una copertura completa degli Uffizi, Palazzo Pitti, Galleria dell'Accademia e le principali chiese e piazze del centro storico. Stiamo lavorando per espandere il servizio a Roma, Venezia e altre importanti città d'arte italiane entro la fine dell'anno. Seguici sui social media per rimanere aggiornato sulle nuove destinazioni.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">Quali lingue sono supportate?</div>
+                        <div class="faq-answer">
+                            <p>AudioArte è attualmente disponibile in 8 lingue: italiano, inglese, francese, spagnolo, tedesco, cinese (mandarino), giapponese e russo. Stiamo lavorando per aggiungere presto altre lingue come portoghese, coreano e arabo.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">Posso condividere l'abbonamento con altre persone?</div>
+                        <div class="faq-answer">
+                            <p>I piani Base e Premium sono individuali e non condivisibili. Per gruppi e famiglie, offriamo piani speciali che consentono l'utilizzo dell'app su più dispositivi contemporaneamente con un unico abbonamento. Contattaci per maggiori informazioni su queste opzioni.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>AudioArte</h3>
+                    <p>La tua guida interattiva per esplorare l'arte di Firenze con un'esperienza completamente nuova.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" id="footer-home">Home</a></li>
+                        <li><a href="#" id="footer-about">Chi Siamo</a></li>
+                        <li><a href="#" id="footer-service">Il Servizio</a></li>
+                        <li><a href="#">Download App</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contatti</h3>
+                    <ul class="footer-links">
+                        <li>info@audioarte.it</li>
+                        <li>+39 055 123 4567</li>
+                        <li>Via dell'Arte 42, Firenze</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Social</h3>
+                    <div class="social-links">
+                        <a href="#">📱</a>
+                        <a href="#">📷</a>
+                        <a href="#">🐦</a>
+                        <a href="#">👥</a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 AudioArte. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Seleziona gli elementi di navigazione
+        const navHome = document.getElementById('nav-home');
+        const navAbout = document.getElementById('nav-about');
+        const navService = document.getElementById('nav-service');
+        const logoLink = document.getElementById('logo-link');
+        const discoverMore = document.getElementById('discover-more');
+        const footerHome = document.getElementById('footer-home');
+        const footerAbout = document.getElementById('footer-about');
+        const footerService = document.getElementById('footer-service');
+        
+        // Seleziona le pagine
+        const homePage = document.getElementById('home-page');
+        const aboutPage = document.getElementById('about-page');
+        const servicePage = document.getElementById('service-page');
+        
+        // Funzione per cambiare pagina
+        function changePage(page) {
+            // Rimuovi classe active da tutte le pagine
+            homePage.classList.remove('active');
+            aboutPage.classList.remove('active');
+            servicePage.classList.remove('active');
+            
+            // Rimuovi classe active da tutti i link di navigazione
+            navHome.classList.remove('active');
+            navAbout.classList.remove('active');
+            navService.classList.remove('active');
+            
+            // Aggiungi classe active alla pagina selezionata
+            if (page === 'home') {
+                homePage.classList.add('active');
+                navHome.classList.add('active');
+            } else if (page === 'about') {
+                aboutPage.classList.add('active');
+                navAbout.classList.add('active');
+            } else if (page === 'service') {
+                servicePage.classList.add('active');
+                navService.classList.add('active');
+            }
+            
+            // Scorri alla cima della pagina
+            window.scrollTo(0, 0);
+        }
+        
+        // Aggiungi event listener ai link di navigazione
+        navHome.addEventListener('click', function(e) {
+            e.preventDefault();
+            changePage('home');
+        });
+        
+        navAbout.addEventListener('click', function(e) {
+            e.preventDefault();
+            changePage('about');
+        });
+        
+        navService.addEventListener('click', function(e) {
+            e.preventDefault();
+            changePage('service');
+        });
+        
+        logoLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            changePage('home');
+        });
+        
+        discoverMore.addEventListener('click', function(e) {
+            e.preventDefault();
+            changePage('service');
+        });
+        
+        footerHome.addEventListener('click', function(e) {
+            e.preventDefault();
+            changePage('home');
+        });
+        
+        footerAbout.addEventListener('click', function(e) {
+            e.preventDefault();
+            changePage('about');
+        });
+        
+        footerService.addEventListener('click', function(e) {
+            e.preventDefault();
+            changePage('service');
+        });
+        
+        // Demo interazione
+        document.addEventListener('DOMContentLoaded', function() {
+            const micButton = document.getElementById('mic-button');
+            const statusText = document.getElementById('status-text');
+            const responseArea = document.getElementById('response-area');
+            const chips = document.querySelectorAll('.chip');
+            
+            let isListening = false;
+            
+            micButton.addEventListener('click', function() {
+                if (!isListening) {
+                    startListening();
+                } else {
+                    stopListening();
+                }
+            });
+            
+            function startListening() {
+                isListening = true;
+                micButton.classList.add('active');
+                statusText.textContent = "In ascolto...";
+                
+                // Simulate listening timeout
+                setTimeout(stopListening, 5000);
+            }
+            
+            function stopListening() {
+                isListening = false;
+                micButton.classList.remove('active');
+                statusText.textContent = "Elaborazione...";
+                
+                // Simulate processing
+                responseArea.classList.add('loading');
+                
+                setTimeout(function() {
+                    responseArea.classList.remove('loading');
+                    statusText.textContent = "Premi il microfono e fai una domanda";
+                    
+                    // Simulate a response (for demo purposes)
+                    responseArea.innerHTML = "<p>La Nascita di Venere (1484-1486) è uno dei capolavori più famosi di Sandro Botticelli. Quest'opera rappresenta la dea Venere che emerge dal mare su una conchiglia, spinta dai venti verso la riva dove una ninfa è pronta ad accoglierla. È un'icona del Rinascimento italiano e rappresenta l'ideale di bellezza dell'epoca. Si trova nella Galleria degli Uffizi a Firenze.</p>";
+                }, 2000);
+            }
+            
+            // Handle suggestion chips
+            chips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    responseArea.innerHTML = "<p>Elaborazione...</p>";
+                    
+                    // Simulate processing
+                    setTimeout(function() {
+                        let response = "";
+                        
+                        // Different responses based on the question
+                        if (chip.textContent === "Chi ha dipinto quest'opera?") {
+                            response = "Quest'opera è stata dipinta da Sandro Botticelli, il cui vero nome era Alessandro di Mariano di Vanni Filipepi. È stato uno dei più grandi artisti del Rinascimento italiano, attivo principalmente a Firenze.";
+                        } else if (chip.textContent === "Quando è stata creata?") {
+                            response = "La Nascita di Venere è stata dipinta tra il 1484 e il 1486, durante il periodo d'oro del Rinascimento italiano, su commissione della famiglia Medici.";
+                        } else if (chip.textContent === "Quali simboli contiene?") {
+                            response = "L'opera è ricca di simbolismo: Venere rappresenta l'amore divino e la bellezza ideale; la conchiglia simboleggia la fertilità; i fiori che cadono rappresentano la primavera e la rinascita. Le figure attorno a Venere sono Zefiro e Clori (i venti) e la ninfa Ora o Pomona.";
+                        } else if (chip.textContent === "Perché è importante?") {
+                            response = "La Nascita di Venere è fondamentale nella storia dell'arte perché rappresenta la fusione tra cristianesimo e mitologia classica tipica del Rinascimento. Tecnicamente innovativa, ha influenzato generazioni di artisti e rimane un simbolo dell'ideale di bellezza occidentale.";
+                        }
+                        
+                        responseArea.innerHTML = "<p>" + response + "</p>";
+                    }, 1000);
+                });
+            });
+            
+            // FAQ toggle
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', function() {
+                    // Toggle active class on the clicked item
+                    item.classList.toggle('active');
+                    
+                    // Close other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                });
+            });
+            
+            // Mostra la homepage all'avvio
+            changePage('home');
+        });
+    </script>
