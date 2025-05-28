@@ -33,14 +33,17 @@
         </div>
     </header>
     <!-- Chat di AI -->
+
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-        <script type="module">
-        	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-        
-        	createChat({
-        		webhookUrl: '6d7afa6e-7973-4531-83e5-81853abd74e2/chat'
-        	});
-        </script>
+    <script type="module">
+      import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    
+      createChat({
+        webhookUrl: 'https://mau2025.app.n8n.cloud/webhook/6d7afa6e-7973-4531-83e5-81853abd74e2/chat'
+      });
+    </script>
+
+
     <!-- Fine Chat di AI -->
     <main>
         <section class="hero">
